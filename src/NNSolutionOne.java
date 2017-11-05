@@ -3,10 +3,7 @@
  * Random thought
  */
 
-// tanítás -> txt (neurális hálóról)
-// N bemenetek száma
-// M kimenetek száma
-// L rejtett rétegek száma
+// architektúra -> súlyok (0 várható, 0.1 szórás normál) és bias (0)
 
 public class NNSolutionOne {
 }

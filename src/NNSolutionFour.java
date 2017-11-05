@@ -3,10 +3,7 @@
  * Random thought
  */
 
-// tanítás -> txt (neurális hálóról)
-// N bemenetek száma
-// M kimenetek száma
-// L rejtett rétegek száma
+// tanítás és validáció
 
 public class NNSolutionFour {
 }

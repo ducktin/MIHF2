@@ -3,10 +3,8 @@
  * Random thought
  */
 
-// tanítás -> txt (neurális hálóról)
-// N bemenetek száma
-// M kimenetek száma
-// L rejtett rétegek száma
+// hibavisszaterjesztés algo
+// parciális derivált
 
 public class NNSolutionThree {
 }

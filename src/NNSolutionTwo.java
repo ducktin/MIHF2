@@ -3,10 +3,7 @@
  * Random thought
  */
 
-// tanítás -> txt (neurális hálóról)
-// N bemenetek száma
-// M kimenetek száma
-// L rejtett rétegek száma
+// architektúra, súlyok, bias, bemenet -> kimenet
 
 public class NNSolutionTwo {
 }
