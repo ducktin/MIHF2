@@ -1,5 +1,4 @@
-
-
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -34,7 +33,8 @@ public class NeuralNetwork {
 		// hiddenlayersetup
 		for (int i = 0; i < hiddenLayers.length; i++) {
 			for (int j = 0; j < hiddenLayers[i].length; j++) {
-				double[] weights = weightsAndBiases[weightsAndBiasesCount].clone();
+				double[] weights = Arrays.copyOf(weightsAndBiases[weightsAndBiasesCount],
+						weightsAndBiases[weightsAndBiasesCount].length-1);
 				int last = weightsAndBiases[weightsAndBiasesCount].length-1;
 				double bias = weightsAndBiases[weightsAndBiasesCount][last];
 				hiddenLayers[i][j] = new Neuron(weights, bias);
@@ -44,7 +44,8 @@ public class NeuralNetwork {
 		
 		// outputsetup
 		for (int i = 0; i < outputs.length; i++) {
-			double[] weights = weightsAndBiases[weightsAndBiasesCount].clone();
+			double[] weights =  Arrays.copyOf(weightsAndBiases[weightsAndBiasesCount],
+					weightsAndBiases[weightsAndBiasesCount].length-1);
 			int last = weightsAndBiases[weightsAndBiasesCount].length-1;
 			double bias = weightsAndBiases[weightsAndBiasesCount][last];
 			outputs[i] = new Neuron(weights, bias);
