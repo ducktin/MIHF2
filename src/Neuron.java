@@ -16,8 +16,22 @@ public class Neuron {
 		this.bias = bias;
 	}
 	
-	public double calculateOutput(){
-		return 0.0;
+	public double calculateLinearOutput(double[] input){
+		
+		return linear(1);
+	}
+	
+	public double calculateReLUOutput(double[] input){
+		
+		return ReLU(1);
+	}
+	
+	private double linear(double x){
+		return x;
+	}
+	
+	private double ReLU(double x){
+		return Math.max(0, x);
 	}
 	
 	@Override

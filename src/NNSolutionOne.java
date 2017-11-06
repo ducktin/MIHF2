@@ -9,10 +9,11 @@ public class NNSolutionOne {
 
 	public static void main(String [ ] args) {
 		
-		NeuralNetwork MLP = Reader.readSolutionOneInput();
+		NeuralNetwork MLP = Reader.readArchitecture();
 		MLP.initNeurons(0.0, 0.1, 0.0);
 		System.out.println(MLP.toString());
 		
+		Reader.close();
 	}
 }
 
