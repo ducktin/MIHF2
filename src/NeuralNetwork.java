@@ -28,21 +28,19 @@ public class NeuralNetwork {
 		Random random = new Random();
 		int prevLayerCount = inputs.length;
 		for (Neuron[] hiddenLayer : hiddenLayers) {
-			double[] weights = getGaussian(mean, deviation, prevLayerCount, random);
-			System.out.println(weights);
 			for (int i = 0; i < hiddenLayer.length; i++) {
+				double[] weights = getGaussians(mean, deviation, prevLayerCount, random);
 				hiddenLayer[i] = new Neuron(weights, bias);
-				System.out.println(hiddenLayer[i]);
 			}
 			prevLayerCount = hiddenLayer.length;
 		}
-		double[] weights = getGaussian(mean, deviation, prevLayerCount, random);
 		for (int i = 0; i < outputs.length; i++) {
+			double[] weights = getGaussians(mean, deviation, prevLayerCount, random);
 			outputs[i] = new Neuron(weights, bias);
 		}
 	}
 	// TODO: Fix same weights
-	private double[] getGaussian(double mean, double deviation, int count, Random random){
+	private double[] getGaussians(double mean, double deviation, int count, Random random){
 		double[] gaussians = new double[count];
 		for (int i = 0; i < count; i++) {
 			gaussians[i] = random.nextGaussian() * deviation + mean;

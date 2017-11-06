@@ -4,7 +4,7 @@
  */
 public class Program {
 	public static void main(String [ ] args){
-		NNSolutionOne.main(args);
+		//NNSolutionOne.main(args);
 		NNSolutionTwo.main(args);
 		NNSolutionThree.main(args);
 		NNSolutionFour.main(args);
