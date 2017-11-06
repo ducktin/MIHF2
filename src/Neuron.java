@@ -17,13 +17,23 @@ public class Neuron {
 	}
 	
 	public double calculateLinearOutput(double[] input){
+		double sum = 0.0;
+		for (int i = 0; i < input.length; i++) {
+			sum += input[i]*weights[i];
+		}
+		sum += bias;
 		
-		return linear(1);
+		return linear(sum);
 	}
 	
 	public double calculateReLUOutput(double[] input){
+		double sum = 0.0;
+		for (int i = 0; i < input.length; i++) {
+			sum += input[i]*weights[i];
+		}
+		sum += bias;
 		
-		return ReLU(1);
+		return ReLU(sum);
 	}
 	
 	private double linear(double x){

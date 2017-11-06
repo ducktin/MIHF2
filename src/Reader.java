@@ -60,7 +60,6 @@ public class Reader {
 		
 		return new NeuralNetwork(N, L, M, weightsAndBiases);
 	}
-	// TODO: refactor Scanners
 	public static double[][] readInputs(){
 		// Inputs
 		int S = Integer.parseInt(_reader.nextLine());

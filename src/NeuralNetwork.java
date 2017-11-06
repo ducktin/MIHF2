@@ -11,6 +11,14 @@ public class NeuralNetwork {
 	private Neuron[][] hiddenLayers;
 	private Neuron[] outputs;
 	
+	public int getInputCount(){
+		return inputCount;
+	}
+	
+	public int getOutputCount(){
+		return outputs.length;
+	}
+	
 	// N = input size, L = hidden layers, M = output size
 	public NeuralNetwork(int N, int[] L, int M) {
 		inputCount = N;
