@@ -29,8 +29,10 @@ public class NeuralNetwork {
 		int prevLayerCount = inputs.length;
 		for (Neuron[] hiddenLayer : hiddenLayers) {
 			double[] weights = getGaussian(mean, deviation, prevLayerCount, random);
+			System.out.println(weights);
 			for (int i = 0; i < hiddenLayer.length; i++) {
 				hiddenLayer[i] = new Neuron(weights, bias);
+				System.out.println(hiddenLayer[i]);
 			}
 			prevLayerCount = hiddenLayer.length;
 		}

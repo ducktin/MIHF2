@@ -7,7 +7,7 @@
 // parciális derivált
 
 public class NNSolutionThree {
-	public static void run(){
+	public static void main(String [ ] args){
 	
 	}
 }
