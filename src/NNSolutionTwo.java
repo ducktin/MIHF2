@@ -6,4 +6,7 @@
 // architektúra, súlyok, bias, bemenet -> kimenet
 
 public class NNSolutionTwo {
+	public static void run(){
+	
+	}
 }

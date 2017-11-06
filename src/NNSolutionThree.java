@@ -7,4 +7,7 @@
 // parciális derivált
 
 public class NNSolutionThree {
+	public static void run(){
+	
+	}
 }

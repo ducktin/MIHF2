@@ -6,4 +6,7 @@
 // tanítás és validáció
 
 public class NNSolutionFour {
+	public static void run(){
+	
+	}
 }

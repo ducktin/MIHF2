@@ -9,4 +9,7 @@
 // L rejtett rétegek száma
 
 public class NNSolutionFive {
+	public static void run(){
+	
+	}
 }
