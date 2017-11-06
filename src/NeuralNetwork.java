@@ -22,7 +22,37 @@ public class NeuralNetwork {
 		outputs = new Neuron[M];
 	}
 	
-	//
+	public NeuralNetwork(int N, int[] L, int M, double[][] weightsAndBiases) {
+		inputs = new double[N];
+		hiddenLayers = new Neuron[L.length][];
+		for (int i = 0; i < L.length; i++) {
+			hiddenLayers[i] = new Neuron[L[i]];
+		}
+		outputs = new Neuron[M];
+		
+		int weightsAndBiasesCount = 0;
+		// hiddenlayersetup
+		for (int i = 0; i < hiddenLayers.length; i++) {
+			for (int j = 0; j < hiddenLayers[i].length; j++) {
+				double[] weights = weightsAndBiases[weightsAndBiasesCount].clone();
+				int last = weightsAndBiases[weightsAndBiasesCount].length-1;
+				double bias = weightsAndBiases[weightsAndBiasesCount][last];
+				hiddenLayers[i][j] = new Neuron(weights, bias);
+				weightsAndBiasesCount++;
+			}
+		}
+		
+		// outputsetup
+		for (int i = 0; i < outputs.length; i++) {
+			double[] weights = weightsAndBiases[weightsAndBiasesCount].clone();
+			int last = weightsAndBiases[weightsAndBiasesCount].length-1;
+			double bias = weightsAndBiases[weightsAndBiasesCount][last];
+			outputs[i] = new Neuron(weights, bias);
+			weightsAndBiasesCount++;
+		}
+		
+	}
+	
 	// Every single neuron will have the same amount of weight/input how much neurons were in the previous layer
 	public void initNeurons(double mean, double deviation, double bias){
 		Random random = new Random();
@@ -39,7 +69,7 @@ public class NeuralNetwork {
 			outputs[i] = new Neuron(weights, bias);
 		}
 	}
-	// TODO: Fix same weights
+	
 	private double[] getGaussians(double mean, double deviation, int count, Random random){
 		double[] gaussians = new double[count];
 		for (int i = 0; i < count; i++) {

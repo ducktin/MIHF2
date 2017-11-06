@@ -7,6 +7,7 @@
 
 public class NNSolutionTwo {
 	public static void main(String [ ] args){
-	
+		NeuralNetwork MLP = Reader.readSolutionTwoInput();
+		System.out.println(MLP.toString());
 	}
 }

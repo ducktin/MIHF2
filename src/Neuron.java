@@ -12,10 +12,7 @@ public class Neuron {
 	}
 	// clone does work
 	public Neuron(double[] weights, double bias){
-		this.weights = new double[weights.length];
-		for (int i = 0; i < weights.length; i++) {
-			this.weights[i] = weights[i];
-		}
+		this.weights = weights.clone();
 		this.bias = bias;
 	}
 	
