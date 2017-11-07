@@ -6,34 +6,83 @@ import java.util.Random;
  * Random thought
  */
 
-// TODO: refactor input layer
 public class NeuralNetwork {
 	
-	private int inputCount;
+	private Neuron[] inputLayer;
 	private Neuron[][] hiddenLayers;
-	private Neuron[] outputs;
-	
-	public int getInputCount(){
-		return inputCount;
-	}
-	
-	public int getOutputCount(){
-		return outputs.length;
-	}
+	private Neuron[] outputLayer;
 	
 	// N = input size, L = hidden layers, M = output size
 	public NeuralNetwork(int N, int[] L, int M) {
-		inputCount = N;
+		inputLayer = new Neuron[N];
 		hiddenLayers = new Neuron[L.length][];
 		for (int i = 0; i < L.length; i++) {
 			hiddenLayers[i] = new Neuron[L[i]];
 		}
-		outputs = new Neuron[M];
+		outputLayer = new Neuron[M];
 	}
 	
-	public NeuralNetwork(int N, int[] L, int M, double[][] weightsAndBiases) {
-		this(N,L,M);
+	public int getInputCount(){
+		return inputLayer.length;
+	}
+	
+	public int getOutputCount(){
+		return outputLayer.length;
+	}
+	
+	public int getLayersCount() {
+		return hiddenLayers.length + outputLayer.length;
+	}
+	
+	public void setInputs(double[] input) {
+		for (int i = 0; i < inputLayer.length; i++) {
+			inputLayer[i].setActivation(input[i]);
+		}
+	}
+	
+	public double[] getInputs() {
+		double[] inputs = new double[inputLayer.length];
+		for (int i = 0; i < inputLayer.length; i++) {
+			inputLayer[i].getActivation();
+		}
+		return inputs;
+	}
+	
+	public double[] getOutputs(){
+		double[] outputs = new double[outputLayer.length];
+		for (int i = 0; i < outputLayer.length; i++) {
+			outputs[i] = outputLayer[i].getLinearOutput();
+		}
 		
+		return outputs;
+	}
+	
+	// Runs the network from input to output
+	public void calculateOutput(){
+		// In every layer calculate the output of the neurons
+		// Then give that output of the layer to the next layer
+		// Until only the output layer is left
+		double[] nextInput;
+		double[] currentInput = getInputs();
+		
+		for (int i = 0; i < hiddenLayers.length; i++) {
+			nextInput = new double[hiddenLayers[i].length];
+			for (int j = 0; j < hiddenLayers[i].length; j++) {
+				hiddenLayers[i][j].calculateActivation(currentInput);
+				
+				nextInput[j] = hiddenLayers[i][j].getReLUOutput();
+			}
+			currentInput = nextInput.clone();
+		}
+		
+		for (int i = 0; i < outputLayer.length; i++) {
+			outputLayer[i].calculateActivation(currentInput);
+		}
+	}
+	
+	
+	// Sets up the networks weights and biases
+	public void setWeightsAndBiases(double[][] weightsAndBiases){
 		int weightsAndBiasesCount = 0;
 		// hiddenlayersetup
 		for (int i = 0; i < hiddenLayers.length; i++) {
@@ -46,14 +95,13 @@ public class NeuralNetwork {
 				weightsAndBiasesCount++;
 			}
 		}
-		
 		// outputsetup
-		for (int i = 0; i < outputs.length; i++) {
+		for (int i = 0; i < outputLayer.length; i++) {
 			double[] weights =  Arrays.copyOf(weightsAndBiases[weightsAndBiasesCount],
 					weightsAndBiases[weightsAndBiasesCount].length-1);
 			int last = weightsAndBiases[weightsAndBiasesCount].length-1;
 			double bias = weightsAndBiases[weightsAndBiasesCount][last];
-			outputs[i] = new Neuron(weights, bias);
+			outputLayer[i] = new Neuron(weights, bias);
 			weightsAndBiasesCount++;
 		}
 		
@@ -62,7 +110,7 @@ public class NeuralNetwork {
 	// Every single neuron will have the same amount of weight/input how much neurons were in the previous layer
 	public void initNeurons(double mean, double deviation, double bias){
 		Random random = new Random();
-		int prevLayerCount = inputCount;
+		int prevLayerCount = inputLayer.length;
 		for (Neuron[] hiddenLayer : hiddenLayers) {
 			for (int i = 0; i < hiddenLayer.length; i++) {
 				double[] weights = getGaussians(mean, deviation, prevLayerCount, random);
@@ -70,9 +118,9 @@ public class NeuralNetwork {
 			}
 			prevLayerCount = hiddenLayer.length;
 		}
-		for (int i = 0; i < outputs.length; i++) {
+		for (int i = 0; i < outputLayer.length; i++) {
 			double[] weights = getGaussians(mean, deviation, prevLayerCount, random);
-			outputs[i] = new Neuron(weights, bias);
+			outputLayer[i] = new Neuron(weights, bias);
 		}
 	}
 	
@@ -82,28 +130,6 @@ public class NeuralNetwork {
 			gaussians[i] = random.nextGaussian() * deviation + mean;
 		}
 		return gaussians;
-	}
-	
-	public double[] calculateOutput(double[] input){
-		double[] output = new double[outputs.length];
-		
-		// In every layer calculate the output of the neurons
-		// Then give that output of the layer to the next layer
-		// Until only the output layer is left
-		double[] nextInput;
-		double[] currentInput = input.clone();
-		for (Neuron[] hiddenLayer : hiddenLayers) {
-			nextInput = new double[hiddenLayer.length];
-			for (int i = 0; i < hiddenLayer.length; i++) {
-				nextInput[i] = hiddenLayer[i].calculateReLUOutput(currentInput);
-			}
-			currentInput = nextInput.clone();
-		}
-		for (int i = 0; i < outputs.length; i++) {
-			output[i] = outputs[i].calculateLinearOutput(currentInput);
-		}
-		
-		return output;
 	}
 	
 	@Override
@@ -119,11 +145,11 @@ public class NeuralNetwork {
 	private String getArchString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		
-		stringBuilder.append(inputCount+",");
+		stringBuilder.append(inputLayer.length+",");
 		for (Neuron[] hiddenLayer : hiddenLayers) {
 			stringBuilder.append(hiddenLayer.length+",");
 		}
-		stringBuilder.append(outputs.length);
+		stringBuilder.append(outputLayer.length);
 		return stringBuilder.toString();
 	}
 	
@@ -134,7 +160,7 @@ public class NeuralNetwork {
 				stringBuilder.append(neuron.toString()+"\n");
 			}
 		}
-		for (Neuron output : outputs) {
+		for (Neuron output : outputLayer) {
 			stringBuilder.append(output.toString()+"\n");
 		}
 		return stringBuilder.toString();

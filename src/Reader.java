@@ -30,31 +30,13 @@ public class Reader {
 		return new NeuralNetwork(N, L, M);
 	}
 	
-	// TODO: refactor to more basic methods
-	public static NeuralNetwork readArchitectureAndWeights() {
-		// Architecture
-		String[] architecture = _reader.nextLine().split(",");
-		int N = Integer.parseInt(architecture[0]);
+	public static double[][] readWeights(int layerCount){
 		
-		int[] L = new int[architecture.length - 2];
-		for (int i = 1; i < architecture.length - 1; i++) {
-			L[i - 1] = Integer.parseInt(architecture[i]);
-		}
-		
-		int M = Integer.parseInt(architecture[architecture.length - 1]);
-		
-		// Calculate the size of array (rows)
-		int nodeCount = 0;
-		for (int i = 0; i < L.length; i++) {
-			nodeCount += L[i];
-		}
-		nodeCount += M;
-		
-		double[][] weightsAndBiases = new double[nodeCount][];
+		double[][] weightsAndBiases = new double[layerCount][];
 		
 		// Weights and biases
 		// for every node of every layer get weighsAndBiases
-		for (int i = 0; i < nodeCount; i++) {
+		for (int i = 0; i < layerCount; i++) {
 			String[] weights = _reader.nextLine().split(",");
 			weightsAndBiases[i] = new double[weights.length];
 			for (int j = 0; j < weights.length; j++) {
@@ -62,7 +44,7 @@ public class Reader {
 			}
 		}
 		
-		return new NeuralNetwork(N, L, M, weightsAndBiases);
+		return weightsAndBiases;
 	}
 	
 	public static double[][] readInputs() {
@@ -81,6 +63,7 @@ public class Reader {
 		return inputs;
 	}
 	
+	// TODO: refactor to array?
 	public static TeachingParameter readTeachingParameter(){
 		String[] teachingParams = _reader.nextLine().split(",");
 		int E = Integer.parseInt(teachingParams[0]);
