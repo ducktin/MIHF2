@@ -5,8 +5,10 @@ import java.util.Random;
  * Created by Tintin on 2017. 11. 05..
  * Random thought
  */
-public class NeuralNetwork {
 
+// TODO: refactor input layer
+public class NeuralNetwork {
+	
 	private int inputCount;
 	private Neuron[][] hiddenLayers;
 	private Neuron[] outputs;

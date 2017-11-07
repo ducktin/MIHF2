@@ -8,43 +8,47 @@ public class Reader {
 	
 	private static Scanner _reader = new Scanner(System.in);
 	
-	public static void close(){
-		_reader.close();
+	public static void close() {
+		try {
+			_reader.close();
+		} catch (Exception e){
+		
+		}
 	}
 	
-	public static NeuralNetwork readArchitecture(){
+	public static NeuralNetwork readArchitecture() {
 		String[] input = _reader.nextLine().split(",");
 		int N = Integer.parseInt(input[0]);
 		
-		int[] L = new int[input.length-2];
-		for (int i = 1; i < input.length-1; i++) {
-			L[i-1] = Integer.parseInt(input[i]);
+		int[] L = new int[input.length - 2];
+		for (int i = 1; i < input.length - 1; i++) {
+			L[i - 1] = Integer.parseInt(input[i]);
 		}
 		
-		int M = Integer.parseInt(input[input.length-1]);
+		int M = Integer.parseInt(input[input.length - 1]);
 		
 		return new NeuralNetwork(N, L, M);
 	}
 	
 	// TODO: refactor to more basic methods
-	public static NeuralNetwork readArchitectureAndWeights(){
+	public static NeuralNetwork readArchitectureAndWeights() {
 		// Architecture
 		String[] architecture = _reader.nextLine().split(",");
 		int N = Integer.parseInt(architecture[0]);
 		
-		int[] L = new int[architecture.length-2];
-		for (int i = 1; i < architecture.length-1; i++) {
-			L[i-1] = Integer.parseInt(architecture[i]);
+		int[] L = new int[architecture.length - 2];
+		for (int i = 1; i < architecture.length - 1; i++) {
+			L[i - 1] = Integer.parseInt(architecture[i]);
 		}
 		
-		int M = Integer.parseInt(architecture[architecture.length-1]);
+		int M = Integer.parseInt(architecture[architecture.length - 1]);
 		
 		// Calculate the size of array (rows)
 		int nodeCount = 0;
 		for (int i = 0; i < L.length; i++) {
-			nodeCount+=L[i];
+			nodeCount += L[i];
 		}
-		nodeCount+=M;
+		nodeCount += M;
 		
 		double[][] weightsAndBiases = new double[nodeCount][];
 		
@@ -60,7 +64,8 @@ public class Reader {
 		
 		return new NeuralNetwork(N, L, M, weightsAndBiases);
 	}
-	public static double[][] readInputs(){
+	
+	public static double[][] readInputs() {
 		// Inputs
 		int S = Integer.parseInt(_reader.nextLine());
 		double[][] inputs = new double[S][];
@@ -75,7 +80,13 @@ public class Reader {
 		
 		return inputs;
 	}
-	//public static NeuralNetwork readSolutionThreeInput(){}
-	//public static NeuralNetwork readSolutionFourInput(){}
-	//public static NeuralNetwork readSolutionFiveInput(){}
+	
+	public static TeachingParameter readTeachingParameter(){
+		String[] teachingParams = _reader.nextLine().split(",");
+		int E = Integer.parseInt(teachingParams[0]);
+		double m = Double.parseDouble(teachingParams[1]);
+		double R = Double.parseDouble(teachingParams[2]);
+		
+		return new TeachingParameter(E, m, R);
+	}
 }

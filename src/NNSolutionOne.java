@@ -13,7 +13,9 @@ public class NNSolutionOne {
 		MLP.initNeurons(0.0, 0.1, 0.0);
 		System.out.println(MLP.toString());
 		
-		Reader.close();
+		if(!(args.length>0 && args[0].equals("development"))){
+			Reader.close();
+		}
 	}
 }
 

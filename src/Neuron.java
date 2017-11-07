@@ -31,6 +31,7 @@ public class Neuron {
 		for (int i = 0; i < input.length; i++) {
 			sum += input[i]*weights[i];
 		}
+		// Have to be bigger then the bias to activate
 		sum += bias;
 		
 		return ReLU(sum);
