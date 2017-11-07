@@ -8,10 +8,10 @@ public class Neuron {
 	private double[] weights;
 	private double bias;
 	
-	public Neuron(int i){
-		weights = new double[i];
+	public Neuron(){
+	
 	}
-	// clone does work
+	
 	public Neuron(double[] weights, double bias){
 		this.weights = weights.clone();
 		this.bias = bias;
@@ -49,6 +49,7 @@ public class Neuron {
 		return Math.max(0, x);
 	}
 	
+	// TODO: rewrite string functions
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();

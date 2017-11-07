@@ -9,11 +9,13 @@ public class NNSolutionTwo {
 	
 	public static void main(String [ ] args){
 		
+		// Set up the network
 		NeuralNetwork MLP = Reader.readArchitecture();
-		MLP.setWeightsAndBiases(Reader.readWeights(MLP.getLayersCount()));
-		double[][] inputs = Reader.readInputs();
+		MLP.setWeightsAndBiases(Reader.readWeights(MLP.getNeuronCount()));
 		
-		double[][] output = new double[inputs.length][];
+		double[][] inputs = Reader.readInputs();
+		double[][] outputs = new double[inputs.length][];
+		
 		// Calculate the outputs based on the inputs
 		// Load input into input layer
 		// Calculate the output inside the network
@@ -21,15 +23,16 @@ public class NNSolutionTwo {
 		for (int i = 0; i < inputs.length; i++)  {
 			MLP.setInputs(inputs[i]);
 			MLP.calculateOutput();
-			output[i] = MLP.getOutputs();
+			outputs[i] = MLP.getOutputs();
 		}
 		
 		// Print the outputCount and output calculated previously
+		// TODO: maybe different function
 		System.out.println(inputs.length);
-		for (int i = 0; i < output.length; i++) {
-			for (int j = 0; j < output[i].length; j++) {
-				System.out.print(output[i][j]);
-				if (j != output[i].length-1)
+		for (int i = 0; i < outputs.length; i++) {
+			for (int j = 0; j < outputs[i].length; j++) {
+				System.out.print(outputs[i][j]);
+				if (j != outputs[i].length-1)
 					System.out.print(",");
 			}
 			System.out.println();

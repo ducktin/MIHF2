@@ -9,7 +9,8 @@
 public class NNSolutionThree {
 	public static void main(String [ ] args){
 		
-		NeuralNetwork MLP = Reader.readArchitectureAndWeights();
+		NeuralNetwork MLP = Reader.readArchitecture();
+		MLP.setWeightsAndBiases(Reader.readWeights(MLP.getNeuronCount()));
 		double[][] inputs = Reader.readInputs();
 		
 		

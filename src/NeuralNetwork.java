@@ -13,6 +13,7 @@ public class NeuralNetwork {
 	private Neuron[] outputLayer;
 	
 	// N = input size, L = hidden layers, M = output size
+	// Set up arrays
 	public NeuralNetwork(int N, int[] L, int M) {
 		inputLayer = new Neuron[N];
 		hiddenLayers = new Neuron[L.length][];
@@ -20,6 +21,7 @@ public class NeuralNetwork {
 			hiddenLayers[i] = new Neuron[L[i]];
 		}
 		outputLayer = new Neuron[M];
+		initNeurons();
 	}
 	
 	public int getInputCount(){
@@ -30,12 +32,17 @@ public class NeuralNetwork {
 		return outputLayer.length;
 	}
 	
-	public int getLayersCount() {
-		return hiddenLayers.length + outputLayer.length;
+	public int getNeuronCount() {
+		int count = 0;
+		for (int i = 0; i < hiddenLayers.length; i++) {
+			count+=hiddenLayers[i].length;
+		}
+		count+=outputLayer.length;
+		return count;
 	}
 	
 	public void setInputs(double[] input) {
-		for (int i = 0; i < inputLayer.length; i++) {
+		for (int i = 0; i < input.length; i++) {
 			inputLayer[i].setActivation(input[i]);
 		}
 	}
@@ -43,7 +50,7 @@ public class NeuralNetwork {
 	public double[] getInputs() {
 		double[] inputs = new double[inputLayer.length];
 		for (int i = 0; i < inputLayer.length; i++) {
-			inputLayer[i].getActivation();
+			inputs[i] = inputLayer[i].getActivation();
 		}
 		return inputs;
 	}
@@ -80,33 +87,45 @@ public class NeuralNetwork {
 		}
 	}
 	
-	
 	// Sets up the networks weights and biases
 	public void setWeightsAndBiases(double[][] weightsAndBiases){
-		int weightsAndBiasesCount = 0;
+		int currentLayer = 0;
 		// hiddenlayersetup
 		for (int i = 0; i < hiddenLayers.length; i++) {
 			for (int j = 0; j < hiddenLayers[i].length; j++) {
-				double[] weights = Arrays.copyOf(weightsAndBiases[weightsAndBiasesCount],
-						weightsAndBiases[weightsAndBiasesCount].length-1);
-				int last = weightsAndBiases[weightsAndBiasesCount].length-1;
-				double bias = weightsAndBiases[weightsAndBiasesCount][last];
+				double[] weights = Arrays.copyOf(weightsAndBiases[currentLayer],
+						weightsAndBiases[currentLayer].length-1);
+				int last = weightsAndBiases[currentLayer].length-1;
+				double bias = weightsAndBiases[currentLayer][last];
 				hiddenLayers[i][j] = new Neuron(weights, bias);
-				weightsAndBiasesCount++;
+				currentLayer++;
 			}
 		}
 		// outputsetup
 		for (int i = 0; i < outputLayer.length; i++) {
-			double[] weights =  Arrays.copyOf(weightsAndBiases[weightsAndBiasesCount],
-					weightsAndBiases[weightsAndBiasesCount].length-1);
-			int last = weightsAndBiases[weightsAndBiasesCount].length-1;
-			double bias = weightsAndBiases[weightsAndBiasesCount][last];
+			double[] weights =  Arrays.copyOf(weightsAndBiases[currentLayer],
+					weightsAndBiases[currentLayer].length-1);
+			int last = weightsAndBiases[currentLayer].length-1;
+			double bias = weightsAndBiases[currentLayer][last];
 			outputLayer[i] = new Neuron(weights, bias);
-			weightsAndBiasesCount++;
+			currentLayer++;
 		}
 		
 	}
 	
+	public void initNeurons(){
+		for (int i = 0; i < inputLayer.length; i++) {
+			inputLayer[i] = new Neuron();
+		}
+		for (int i = 0; i < hiddenLayers.length; i++) {
+			for (int j = 0; j < hiddenLayers[i].length; j++) {
+				hiddenLayers[i][j] = new Neuron();
+			}
+		}
+		for (int i = 0; i < outputLayer.length; i++) {
+			outputLayer[i] = new Neuron();
+		}
+	}
 	// Every single neuron will have the same amount of weight/input how much neurons were in the previous layer
 	public void initNeurons(double mean, double deviation, double bias){
 		Random random = new Random();
@@ -131,6 +150,8 @@ public class NeuralNetwork {
 		}
 		return gaussians;
 	}
+	
+	// TODO: rewrite string functions
 	
 	@Override
 	public String toString() {
